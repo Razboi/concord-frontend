@@ -1,8 +1,32 @@
 import React from "react";
 import openSocket from "socket.io-client";
-const socket = openSocket("http://localhost:8000");
+import styled from "styled-components";
+const socket = openSocket("http://192.168.1.15:8000");
 
+const Wrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+`;
 
+const MessagesBox = styled.div`
+	border: 1px solid #808080;
+	width: 500px;
+	min-height: 500px;
+	margin: 0px auto;
+`;
+
+const InputBar = styled.div`
+	margin: 0px auto;
+`;
+
+const InputBox = styled.input`
+	width: 400px;
+`;
+
+const SendButton = styled.button`
+	width: 100px;
+`;
 
 class App extends React.Component {
 	constructor() {
@@ -33,15 +57,17 @@ class App extends React.Component {
   render() {
 		console.log( this.state.messagesList );
     return (
-      <div>
-				<div>
+      <Wrapper>
+				<MessagesBox>
 					{this.state.messagesList.map( message =>
 						<span>{message}<br/></span>
 					)}
-				</div>
-				<input name="message" onChange={this.handleChange} />
-				<button onClick={this.sendMessage}>Send message</button>
-      </div>
+				</MessagesBox>
+				<InputBar>
+					<InputBox name="message" onChange={this.handleChange} />
+					<SendButton onClick={this.sendMessage}>Send</SendButton>
+				</InputBar>
+      </Wrapper>
     );
   }
 }
