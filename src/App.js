@@ -1,6 +1,8 @@
 import React from "react";
 import openSocket from "socket.io-client";
 import styled from "styled-components";
+import { Input, Button } from "semantic-ui-react";
+
 const socket = openSocket("http://192.168.1.15:8000");
 
 const Wrapper = styled.div`
@@ -20,11 +22,19 @@ const InputBar = styled.div`
 	margin: 0px auto;
 `;
 
-const InputBox = styled.input`
+const InputBox = styled( Input )`
 	width: 400px;
 `;
 
-const SendButton = styled.button`
+const SendButton = styled( Button )`
+	width: 100px;
+`;
+
+const Username = styled( Input )`
+	width: 200px;
+`;
+
+const ChangeUsername = styled( Button )`
 	width: 100px;
 `;
 
@@ -48,24 +58,41 @@ class App extends React.Component {
 
 	sendMessage = () => {
 		socket.emit("newMessage", this.state.message );
+		this.setState({ message: "" });
 	};
 
 	handleChange = (e) => {
 		this.setState({ [ e.target.name ]: e.target.value });
 	};
 
+	changeUsername = () => {
+		socket.emit("changeUsername", this.state.username );
+	};
+
+	handleKeyPress = (e) => {
+		if ( e.key === "Enter" ) {
+			this.sendMessage();
+		}
+	};
+
   render() {
-		console.log( this.state.messagesList );
     return (
       <Wrapper>
+				<Username name="username" label="Username" onChange={this.handleChange} />
+				<ChangeUsername secondary content="Change" onClick={this.changeUsername} />
 				<MessagesBox>
 					{this.state.messagesList.map( message =>
 						<span>{message}<br/></span>
 					)}
 				</MessagesBox>
 				<InputBar>
-					<InputBox name="message" onChange={this.handleChange} />
-					<SendButton onClick={this.sendMessage}>Send</SendButton>
+					<InputBox
+						name="message"
+						onChange={this.handleChange}
+						onKeyPress={this.handleKeyPress}
+						value={this.state.message}
+					/>
+					<SendButton primary onClick={this.sendMessage}>Send</SendButton>
 				</InputBar>
       </Wrapper>
     );

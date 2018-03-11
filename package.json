@@ -6,6 +6,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
+    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-react": "^0.78.3",
     "socket.io-client": "^2.0.4",
     "styled-components": "^3.2.1"
   },
