@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button } from "semantic-ui-react";
-import axios from "axios";
 
 class LoginPage extends React.Component {
 
