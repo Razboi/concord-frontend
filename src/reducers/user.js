@@ -6,8 +6,8 @@ export default function authenticated( state={}, action={}) {
 		case USER_LOGGED_IN:
 			return true;
 		case USER_LOGGED_OUT:
-			return {};
+			return false;
 		default:
-			return state;
+			return false;
 	}
 }

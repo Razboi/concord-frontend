@@ -9,10 +9,15 @@ import { Provider } from "react-redux";
 import rootReducer from "./rootReducer";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { userLoggedIn } from "./actions/auth";
 
 const store = createStore( rootReducer, composeWithDevTools(
 	applyMiddleware( thunk )
 ) );
+
+if ( localStorage.token )  {
+  store.dispatch( userLoggedIn() );
+}
 
 ReactDOM.render( (
 	<BrowserRouter>

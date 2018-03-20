@@ -37,6 +37,7 @@ class LoginPage extends React.Component {
 	}
 };
 
+// define LoginPage props
 LoginPage.propTypes = {
 	history: PropTypes.shape({
 		push: PropTypes.func.isRequired
@@ -45,4 +46,5 @@ LoginPage.propTypes = {
 	logout: PropTypes.func.isRequired
 };
 
+// connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
 export default connect( null, { oauth, logout })( LoginPage );
