@@ -1,25 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container } from "semantic-ui-react";
-import axios from "axios";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import SECRET_KEYS from "../keys";
+import { oauth, logout } from "../actions/auth";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 class LoginPage extends React.Component {
 
-	responseGoogle = res =>  {
-		axios({
-			method: "post",
-			url: "oauth/google",
-			data: { profile: res.profileObj }
-		})
-		.then( res => localStorage.setItem("token", res.data ) )
-		.catch( err => console.log( err ) );
-	};
+	responseGoogle = res =>
+		this.props.oauth( res.profileObj );
 
-	logout = () => {
-		localStorage.removeItem("token");
-	};
+	handleLogout = () =>
+		this.props.logout();
 
 	render() {
 		return (
@@ -35,7 +29,7 @@ class LoginPage extends React.Component {
 				/>
 				<GoogleLogout
 					buttonText="Logout"
-					onLogoutSuccess={this.logout}
+					onLogoutSuccess={this.handleLogout}
 				>
 				</GoogleLogout>
 			</Container>
@@ -43,4 +37,12 @@ class LoginPage extends React.Component {
 	}
 };
 
-export default LoginPage;
+LoginPage.propTypes = {
+	history: PropTypes.shape({
+		push: PropTypes.func.isRequired
+	}).isRequired,
+	oauth: PropTypes.func.isRequired,
+	logout: PropTypes.func.isRequired
+};
+
+export default connect( null, { oauth, logout })( LoginPage );
