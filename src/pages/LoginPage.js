@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Form, Button } from "semantic-ui-react";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import SECRET_KEYS from "../keys";
-import { oauth, logout } from "../actions/auth";
+import { oauth } from "../actions/auth";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -67,10 +67,7 @@ const FormHeader = styled.h2`
 class LoginPage extends React.Component {
 
 	responseGoogle = res =>
-		this.props.oauth( res.profileObj );
-
-	handleLogout = () =>
-		this.props.logout();
+		this.props.oauth( res.profileObj ).then( () => this.props.history.push("/") );
 
 	render() {
 		return (
@@ -98,10 +95,7 @@ class LoginPage extends React.Component {
 						primary
 						content="Continue with Facebook"
 					/>
-					{/* <GoogleLogout
-						buttonText="Logout"
-						onLogoutSuccess={this.handleLogout}
-					/> */}
+
 				</FormWrapper>
 
 			</MainWrapper>
@@ -114,9 +108,8 @@ LoginPage.propTypes = {
 	history: PropTypes.shape({
 		push: PropTypes.func.isRequired
 	}).isRequired,
-	oauth: PropTypes.func.isRequired,
-	logout: PropTypes.func.isRequired
+	oauth: PropTypes.func.isRequired
 };
 
 // connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
-export default connect( null, { oauth, logout })( LoginPage );
+export default connect( null, { oauth })( LoginPage );

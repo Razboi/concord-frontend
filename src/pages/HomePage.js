@@ -2,6 +2,9 @@ import React from "react";
 import openSocket from "socket.io-client";
 import styled from "styled-components";
 import { Input, Button, Container } from "semantic-ui-react";
+import { logout } from "../actions/auth";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const socket = openSocket("http://192.168.1.15:8000");
 
@@ -75,9 +78,18 @@ class Homepage extends React.Component {
 		}
 	};
 
+	handleLogout = () => {
+		this.props.logout();
+	};
+
   render() {
     return (
       <Wrapper>
+				<Button
+					secondary
+					content="Logout"
+					onClick={this.handleLogout}
+				/>
 				<Username name="username" label="Username" onChange={this.handleChange} />
 				<ChangeUsername secondary content="Change" onClick={this.changeUsername} />
 				<MessagesBox>
@@ -99,4 +111,8 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage;
+Homepage.propTypes = {
+	logout: PropTypes.func.isRequired
+};
+
+export default connect( null, { logout })( Homepage );
