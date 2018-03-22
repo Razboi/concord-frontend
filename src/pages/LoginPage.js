@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Form, Button } from "semantic-ui-react";
 import { GoogleLogin } from "react-google-login";
 import SECRET_KEYS from "../keys";
-import { oauth } from "../actions/auth";
+import { oauth, login, signup } from "../actions/auth";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -65,22 +65,77 @@ const FormHeader = styled.h2`
 `;
 
 class LoginPage extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			email: "",
+			password: "",
+			login: true
+		};
+	}
 
-	responseGoogle = res =>
-		this.props.oauth( res.profileObj ).then( () => this.props.history.push("/") );
+	responseGoogle = res => {
+		if ( res.profileObj ) {
+			this.props.oauth( res.profileObj ).then( () => this.props.history.push("/") );
+		}
+	};
+
+	handleChange = e =>
+		this.setState({ [ e.target.name ]: e.target.value });
+
+	handleLogin = () => {
+		var credentials = { email: this.state.email, password: this.state.password };
+		if ( credentials.email !== "" && credentials.password !== "") {
+			this.props.login( credentials ).then( () => this.props.history.push("/") );
+		}
+	};
+
+	handleSignup = () => {
+		var credentials = { email: this.state.email, password: this.state.password };
+		if ( credentials.email !== "" && credentials.password !== "") {
+			this.props.signup( credentials )
+			.then( () => this.props.history.push("/") );
+		}
+	};
+
+	switchForm = () =>
+		this.setState({ login: !this.state.login });
 
 	render() {
 		return (
 			<MainWrapper>
-				<SwitchFormButton secondary content="Sign up" />
-				<FormWrapper>
-					<FormHeader>Log In to Concord</FormHeader>
 
+				<FormWrapper>
+					{this.state.login ?
+						<SwitchFormButton secondary content="Sign up" onClick={this.switchForm} />
+					:
+					<SwitchFormButton secondary content="Log In" onClick={this.switchForm} />
+					}
+
+					{this.state.login ?
+						<FormHeader>Log In to Concord</FormHeader>
+					:
+						<FormHeader>Sign Up to Concord</FormHeader>
+					}
 
 					<StyledForm>
-						<Form.Input label="Email" />
-						<Form.Input label="Password" type="password" />
-						<LoginButton primary content="Log In"/>
+						<Form.Input
+							label="Email"
+							name="email"
+							onChange={this.handleChange}
+						/>
+						<Form.Input
+							label="Password"
+							type="password"
+							name="password"
+							onChange={this.handleChange}
+						/>
+						{this.state.login ?
+							<LoginButton primary content="Log In" onClick={this.handleLogin}/>
+						:
+						<LoginButton primary content="Sign Up" onClick={this.handleSignup}/>
+						}
+
 					</StyledForm>
 
 					<Separator>Or</Separator>
@@ -95,9 +150,7 @@ class LoginPage extends React.Component {
 						primary
 						content="Continue with Facebook"
 					/>
-
 				</FormWrapper>
-
 			</MainWrapper>
 		);
 	}
@@ -108,8 +161,10 @@ LoginPage.propTypes = {
 	history: PropTypes.shape({
 		push: PropTypes.func.isRequired
 	}).isRequired,
-	oauth: PropTypes.func.isRequired
+	oauth: PropTypes.func.isRequired,
+	login: PropTypes.func.isRequired,
+	signup: PropTypes.func.isRequired
 };
 
 // connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
-export default connect( null, { oauth })( LoginPage );
+export default connect( null, { oauth, login, signup })( LoginPage );
