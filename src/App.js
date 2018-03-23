@@ -5,14 +5,14 @@ import { Route } from "react-router-dom";
 import UserRoute from "./components/routes/UserRoute";
 
 class App extends React.Component {
-  render() {
-    return (
+	render() {
+		return (
 			<div>
 				<UserRoute exact path="/" component={HomePage} />
 				<Route path="/login" component={LoginPage} />
 			</div>
-    );
-  }
+		);
+	}
 }
 
 export default App;

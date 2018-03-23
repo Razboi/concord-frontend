@@ -23,4 +23,4 @@ function mapStateToProps( state ) {
 	};
 };
 
-export default withRouter( connect( mapStateToProps )( UserRoute ) );
+export default withRouter( connect( mapStateToProps )( UserRoute ));

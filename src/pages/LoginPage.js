@@ -7,30 +7,27 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-const MainWrapper = styled( Container )`
+const
+	MainWrapper = styled( Container )`
 	display: flex !important;
 	justify-content: center;
-`;
-
-const FormWrapper = styled.div`
+`,
+	FormWrapper = styled.div`
 	margin-top: 150px;
 	border: 1px solid #808080;
 	padding: 20px 40px;
 	width: 340px;
-`;
-
-const Separator = styled.span`
+`,
+	Separator = styled.span`
 	display: block;
 	text-align: center;
 	margin: 25px auto;
 	color: #808080;
-`;
-
-const StyledForm = styled( Form )`
+`,
+	StyledForm = styled( Form )`
 	margin-top: 40px;
-`;
-
-const GoogleLoginButton = styled( GoogleLogin )`
+`,
+	GoogleLoginButton = styled( GoogleLogin )`
 	display: block;
 	margin: auto;
 	background: #4285f4;
@@ -41,25 +38,21 @@ const GoogleLoginButton = styled( GoogleLogin )`
 	border-radius: 3px;
 	font-weight: bold;
 	margin-bottom: 10px;
-`;
-
-const FacebookLoginButton = styled( Button )`
+`,
+	FacebookLoginButton = styled( Button )`
 	background: #4267b2 !important;
 	width: 100%;
-`;
-
-const LoginButton = styled( Button )`
+`,
+	LoginButton = styled( Button )`
 	background: #7289da !important;
 	width: 100%;
-`;
-
-const SwitchFormButton = styled( Button )`
+`,
+	SwitchFormButton = styled( Button )`
 	position: absolute;
 	right: 20px;
 	top: 20px;
-`;
-
-const FormHeader = styled.h2`
+`,
+	FormHeader = styled.h2`
 	text-align: center;
 	color: #2c2f33;
 `;
@@ -76,7 +69,7 @@ class LoginPage extends React.Component {
 
 	responseGoogle = res => {
 		if ( res.profileObj ) {
-			this.props.oauth( res.profileObj ).then( () => this.props.history.push("/") );
+			this.props.oauth( res.profileObj ).then(() => this.props.history.push( "/" ));
 		}
 	};
 
@@ -85,16 +78,16 @@ class LoginPage extends React.Component {
 
 	handleLogin = () => {
 		var credentials = { email: this.state.email, password: this.state.password };
-		if ( credentials.email !== "" && credentials.password !== "") {
-			this.props.login( credentials ).then( () => this.props.history.push("/") );
+		if ( credentials.email !== "" && credentials.password !== "" ) {
+			this.props.login( credentials ).then(() => this.props.history.push( "/" ));
 		}
 	};
 
 	handleSignup = () => {
 		var credentials = { email: this.state.email, password: this.state.password };
-		if ( credentials.email !== "" && credentials.password !== "") {
+		if ( credentials.email !== "" && credentials.password !== "" ) {
 			this.props.signup( credentials )
-			.then( () => this.props.history.push("/") );
+				.then(() => this.props.history.push( "/" ));
 		}
 	};
 
@@ -104,17 +97,16 @@ class LoginPage extends React.Component {
 	render() {
 		return (
 			<MainWrapper>
-
 				<FormWrapper>
 					{this.state.login ?
 						<SwitchFormButton secondary content="Sign up" onClick={this.switchForm} />
-					:
-					<SwitchFormButton secondary content="Log In" onClick={this.switchForm} />
+						:
+						<SwitchFormButton secondary content="Log In" onClick={this.switchForm} />
 					}
 
 					{this.state.login ?
 						<FormHeader>Log In to Concord</FormHeader>
-					:
+						:
 						<FormHeader>Sign Up to Concord</FormHeader>
 					}
 
@@ -132,8 +124,8 @@ class LoginPage extends React.Component {
 						/>
 						{this.state.login ?
 							<LoginButton primary content="Log In" onClick={this.handleLogin}/>
-						:
-						<LoginButton primary content="Sign Up" onClick={this.handleSignup}/>
+							:
+							<LoginButton primary content="Sign Up" onClick={this.handleSignup}/>
 						}
 
 					</StyledForm>

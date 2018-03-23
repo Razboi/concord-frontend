@@ -6,38 +6,33 @@ import { logout } from "../actions/auth";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const socket = openSocket("http://192.168.1.15:8000");
+const
+	socket = openSocket( "http://192.168.1.15:8000" ),
 
-const Wrapper = styled( Container )`
+	Wrapper = styled( Container )`
 	display: flex !important;
 	justify-content: center;
 	flex-direction: column;
-`;
-
-const MessagesBox = styled.div`
+`,
+	MessagesBox = styled.div`
 	border: 1px solid #808080;
 	width: 500px;
 	min-height: 500px;
 	margin: 0px auto;
-`;
-
-const InputBar = styled.div`
+`,
+	InputBar = styled.div`
 	margin: 0px auto;
-`;
-
-const InputBox = styled( Input )`
+`,
+	InputBox = styled( Input )`
 	width: 400px;
-`;
-
-const SendButton = styled( Button )`
+`,
+	SendButton = styled( Button )`
 	width: 100px;
-`;
-
-const Username = styled( Input )`
+`,
+	Username = styled( Input )`
 	width: 200px;
-`;
-
-const ChangeUsername = styled( Button )`
+`,
+	ChangeUsername = styled( Button )`
 	width: 100px;
 `;
 
@@ -51,7 +46,7 @@ class Homepage extends React.Component {
 	}
 
 	componentDidMount() {
-		socket.on("newMessage", data => {
+		socket.on( "newMessage", data => {
 			// the new messages list is the current messages list + the new data
 			var newMessages = this.state.messagesList;
 			newMessages.push( data );
@@ -60,19 +55,19 @@ class Homepage extends React.Component {
 	}
 
 	sendMessage = () => {
-		socket.emit("newMessage", this.state.message );
+		socket.emit( "newMessage", this.state.message );
 		this.setState({ message: "" });
 	};
 
-	handleChange = (e) => {
+	handleChange = ( e ) => {
 		this.setState({ [ e.target.name ]: e.target.value });
 	};
 
 	changeUsername = () => {
-		socket.emit("changeUsername", this.state.username );
+		socket.emit( "changeUsername", this.state.username );
 	};
 
-	handleKeyPress = (e) => {
+	handleKeyPress = ( e ) => {
 		if ( e.key === "Enter" ) {
 			this.sendMessage();
 		}
@@ -82,9 +77,9 @@ class Homepage extends React.Component {
 		this.props.logout();
 	};
 
-  render() {
-    return (
-      <Wrapper>
+	render() {
+		return (
+			<Wrapper>
 				<Button
 					secondary
 					content="Logout"
@@ -106,9 +101,9 @@ class Homepage extends React.Component {
 					/>
 					<SendButton primary onClick={this.sendMessage}>Send</SendButton>
 				</InputBar>
-      </Wrapper>
-    );
-  }
+			</Wrapper>
+		);
+	}
 }
 
 Homepage.propTypes = {

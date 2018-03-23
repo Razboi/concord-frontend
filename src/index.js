@@ -13,18 +13,18 @@ import { userLoggedIn } from "./actions/auth";
 
 const store = createStore( rootReducer, composeWithDevTools(
 	applyMiddleware( thunk )
-) );
+));
 
-if ( localStorage.token )  {
-  store.dispatch( userLoggedIn() );
+if ( localStorage.token ) {
+	store.dispatch( userLoggedIn());
 }
 
-ReactDOM.render( (
+ReactDOM.render((
 	<BrowserRouter>
 		<Provider store={store}>
 			<App />
 		</Provider>
 	</BrowserRouter>
-	),
-	document.getElementById("root") );
+),
+document.getElementById( "root" ));
 registerServiceWorker();

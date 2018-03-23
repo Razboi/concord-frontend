@@ -1,0 +1,16 @@
+{
+  "extends": "idiomatic",
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  },
+  "rules": {
+      "semi": 2,
+      "quotes": ["error", "double"],
+      "indent": ["error", "tab"]
+  }
+}
