@@ -13,6 +13,7 @@ const
 	display: flex !important;
 	justify-content: center;
 	flex-direction: column;
+	margin-top: 40px;
 `,
 	MessagesBox = styled.div`
 	border: 1px solid #808080;
@@ -29,12 +30,12 @@ const
 	SendButton = styled( Button )`
 	width: 100px;
 `,
-	Username = styled( Input )`
-	width: 200px;
-`,
-	ChangeUsername = styled( Button )`
-	width: 100px;
-`;
+	LogoutButton = styled( Button )`
+		width: 100px;
+		position: absolute;
+		left: 20px;
+		top: 20px;
+	`;
 
 class Homepage extends React.Component {
 	constructor() {
@@ -55,16 +56,13 @@ class Homepage extends React.Component {
 	}
 
 	sendMessage = () => {
-		socket.emit( "newMessage", this.state.message );
+		const data = { message: this.state.message, token: localStorage.token };
+		socket.emit( "newMessage", data );
 		this.setState({ message: "" });
 	};
 
 	handleChange = ( e ) => {
 		this.setState({ [ e.target.name ]: e.target.value });
-	};
-
-	changeUsername = () => {
-		socket.emit( "changeUsername", this.state.username );
 	};
 
 	handleKeyPress = ( e ) => {
@@ -80,13 +78,11 @@ class Homepage extends React.Component {
 	render() {
 		return (
 			<Wrapper>
-				<Button
+				<LogoutButton
 					secondary
 					content="Logout"
 					onClick={this.handleLogout}
 				/>
-				<Username name="username" label="Username" onChange={this.handleChange} />
-				<ChangeUsername secondary content="Change" onClick={this.changeUsername} />
 				<MessagesBox>
 					{this.state.messagesList.map( message =>
 						<span>{message}<br/></span>
