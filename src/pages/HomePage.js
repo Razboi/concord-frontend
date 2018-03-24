@@ -5,6 +5,7 @@ import { Input, Button, Container } from "semantic-ui-react";
 import { logout } from "../actions/auth";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import FriendSidebar from "../components/FriendSidebar";
 
 const
 	socket = openSocket( "http://192.168.1.15:8000" ),
@@ -13,7 +14,7 @@ const
 	display: flex !important;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: 40px;
+	padding-top: 40px;
 `,
 	MessagesBox = styled.div`
 	border: 1px solid #808080;
@@ -35,6 +36,11 @@ const
 		position: absolute;
 		left: 20px;
 		top: 20px;
+	`,
+	MessageTo = styled( Input )`
+		position: absolute !important;
+		top: 0px;
+		width: 120px;
 	`;
 
 class Homepage extends React.Component {
@@ -42,11 +48,14 @@ class Homepage extends React.Component {
 		super();
 		this.state = {
 			message: "",
+			to: "",
 			messagesList: []
 		};
 	}
 
 	componentDidMount() {
+		socket.emit( "register", localStorage.token );
+
 		socket.on( "newMessage", data => {
 			// the new messages list is the current messages list + the new data
 			var newMessages = this.state.messagesList;
@@ -56,7 +65,7 @@ class Homepage extends React.Component {
 	}
 
 	sendMessage = () => {
-		const data = { message: this.state.message, token: localStorage.token };
+		const data = { message: this.state.message, to: this.state.to };
 		socket.emit( "newMessage", data );
 		this.setState({ message: "" });
 	};
@@ -83,6 +92,12 @@ class Homepage extends React.Component {
 					content="Logout"
 					onClick={this.handleLogout}
 				/>
+				<MessageTo
+					label="To"
+					placeholder="username"
+					onChange={this.handleChange}
+					name="to"
+				/>
 				<MessagesBox>
 					{this.state.messagesList.map( message =>
 						<span>{message}<br/></span>
@@ -97,6 +112,8 @@ class Homepage extends React.Component {
 					/>
 					<SendButton primary onClick={this.sendMessage}>Send</SendButton>
 				</InputBar>
+
+				<FriendSidebar />
 			</Wrapper>
 		);
 	}
