@@ -16,6 +16,7 @@ const
 	justify-content: center;
 	flex-direction: column;
 	padding-top: 40px;
+	}
 `,
 	MessagesBox = styled.div`
 	border: 1px solid #808080;
@@ -118,8 +119,8 @@ class Homepage extends React.Component {
 					value={this.state.to}
 				/>
 				<MessagesBox>
-					{this.state.messagesList.map( message =>
-						<span>{message}<br/></span>
+					{this.state.messagesList.map(( message, index ) =>
+						<span key={index}>{message}<br/></span>
 					)}
 				</MessagesBox>
 				<InputBar>

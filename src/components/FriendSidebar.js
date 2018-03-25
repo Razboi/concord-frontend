@@ -10,6 +10,9 @@ const
 		border: 1px solid #808080;
 		height: 100%;
 		padding: 0px 15px;
+	`,
+	AddFriendForm = styled.span`
+		flex-direction: row;
 	`;
 
 class FriendSidebar extends React.Component {
@@ -35,13 +38,15 @@ class FriendSidebar extends React.Component {
 	render() {
 		return (
 			<Wrapper>
-				<Input
-					name="addFriend"
-					placeholder="Username"
-					onChange={this.handleChange}
-					value={this.state.addFriend}
-				/>
-				<Button primary content="Add Friend" onClick={this.clearAndSend} />
+				<AddFriendForm>
+					<Input
+						name="addFriend"
+						placeholder="Username"
+						onChange={this.handleChange}
+						value={this.state.addFriend}
+					/>
+					<Button primary content="Add Friend" onClick={this.clearAndSend} />
+				</AddFriendForm>
 				<h3>Friends</h3>
 				{this.props.friends.map(( friend, index ) =>
 					<span key={index} onClick={() => this.changeReceiver( friend )}>
