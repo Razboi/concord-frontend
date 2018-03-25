@@ -13,13 +13,41 @@ const
 	`;
 
 class FriendSidebar extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			addFriend: ""
+		};
+	}
+	clearAndSend = ( e ) => {
+		const friend = this.state.addFriend;
+		this.setState({ addFriend: "" });
+		this.props.addFriend( friend );
+	};
+
+	handleChange = ( e ) =>
+		this.setState({ [ e.target.name ]: e.target.value });
+
+	changeReceiver = ( receiver ) => {
+		this.props.setReceiver( receiver );
+	}
+
 	render() {
 		return (
 			<Wrapper>
-				<Input placeholder="Username" />
-				<Button primary content="Add Friend" />
+				<Input
+					name="addFriend"
+					placeholder="Username"
+					onChange={this.handleChange}
+					value={this.state.addFriend}
+				/>
+				<Button primary content="Add Friend" onClick={this.clearAndSend} />
 				<h3>Friends</h3>
-
+				{this.props.friends.map(( friend, index ) =>
+					<span key={index} onClick={() => this.changeReceiver( friend )}>
+						{ friend }<br/>
+					</span>
+				)}
 			</Wrapper>
 		);
 	}

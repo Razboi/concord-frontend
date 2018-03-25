@@ -6,6 +6,7 @@ import { logout } from "../actions/auth";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import FriendSidebar from "../components/FriendSidebar";
+import api from "../api";
 
 const
 	socket = openSocket( "http://192.168.1.15:8000" ),
@@ -49,12 +50,14 @@ class Homepage extends React.Component {
 		this.state = {
 			message: "",
 			to: "",
-			messagesList: []
+			messagesList: [],
+			friends: []
 		};
 	}
 
 	componentDidMount() {
 		socket.emit( "register", localStorage.token );
+		this.getFriends();
 
 		socket.on( "newMessage", data => {
 			// the new messages list is the current messages list + the new data
@@ -80,9 +83,24 @@ class Homepage extends React.Component {
 		}
 	};
 
-	handleLogout = () => {
-		this.props.logout();
+	handleLogout = () =>
+		this.props.logout()
+
+	addFriend = ( friend ) => {
+		const data = { friend: friend, token: localStorage.token };
+		api.addFriend( data )
+			.then( friendEmail => this.getFriends())
+			.catch( err => console.log( err ));
 	};
+
+	getFriends = () => {
+		api.getFriends( localStorage.token )
+			.then( friends => this.setState({ friends: friends }))
+			.catch( err => console.log( err ));
+	};
+
+	setReceiver = ( receiver ) =>
+		this.setState({ to: receiver });
 
 	render() {
 		return (
@@ -97,6 +115,7 @@ class Homepage extends React.Component {
 					placeholder="username"
 					onChange={this.handleChange}
 					name="to"
+					value={this.state.to}
 				/>
 				<MessagesBox>
 					{this.state.messagesList.map( message =>
@@ -113,7 +132,11 @@ class Homepage extends React.Component {
 					<SendButton primary onClick={this.sendMessage}>Send</SendButton>
 				</InputBar>
 
-				<FriendSidebar />
+				<FriendSidebar
+					addFriend={this.addFriend}
+					friends={this.state.friends}
+					setReceiver={this.setReceiver}
+				/>
 			</Wrapper>
 		);
 	}
