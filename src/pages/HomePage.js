@@ -84,13 +84,15 @@ class Homepage extends React.Component {
 		}
 	};
 
-	handleLogout = () =>
-		this.props.logout()
+	handleLogout = () => {
+		socket.emit( "disconnect" );
+		this.props.logout();
+	};
 
 	addFriend = ( friend ) => {
 		const data = { friend: friend, token: localStorage.token };
 		api.addFriend( data )
-			.then( friendEmail => this.getFriends())
+			.then(() => this.getFriends())
 			.catch( err => console.log( err ));
 	};
 
