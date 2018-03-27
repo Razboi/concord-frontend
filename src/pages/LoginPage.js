@@ -68,8 +68,8 @@ class LoginPage extends React.Component {
 	}
 
 	responseGoogle = res => {
-		if ( res.profileObj ) {
-			this.props.oauth( res.profileObj ).then(() => this.props.history.push( "/" ));
+		if ( res.tokenId ) {
+			this.props.oauth( res.tokenId ).then(() => this.props.history.push( "/" ));
 		}
 	};
 

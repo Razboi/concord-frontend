@@ -10,8 +10,8 @@ export const
 		type: USER_LOGGED_OUT
 	}),
 
-	oauth = profile => dispatch =>
-		api.oauth( profile ).then( token => {
+	oauth = googleToken => dispatch =>
+		api.oauth( googleToken ).then( token => {
 			if ( token ) {
 				localStorage.setItem( "token", token );
 				dispatch( userLoggedIn());

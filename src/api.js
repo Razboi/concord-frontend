@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default {
-	oauth: profile =>
+	oauth: googleToken =>
 		axios({
 			method: "post",
 			url: "oauth/google",
-			data: { profile: profile }
+			data: { token: googleToken }
 		})
 			.then( res => res.data )
 			.catch( err => console.log( err )),
