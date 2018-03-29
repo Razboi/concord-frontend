@@ -107,32 +107,41 @@ class Homepage extends React.Component {
 
 	render() {
 		return (
-			<Wrapper>
+			<Wrapper id="HomepageWrapper">
 				<LogoutButton
+					className="logoutButton"
 					secondary
 					content="Logout"
 					onClick={this.handleLogout}
 				/>
 				<MessageTo
+					id="MessageTo"
 					label="To"
 					placeholder="username"
 					onChange={this.handleChange}
 					name="to"
 					value={this.state.to}
 				/>
-				<MessagesBox>
+				<MessagesBox id="MessagesBox">
 					{this.state.messagesList.map(( message, index ) =>
 						<span key={index}>{message}<br/></span>
 					)}
 				</MessagesBox>
-				<InputBar>
+				<InputBar id="InputBar">
 					<InputBox
+						id="InputBox"
 						name="message"
 						onChange={this.handleChange}
 						onKeyPress={this.handleKeyPress}
 						value={this.state.message}
 					/>
-					<SendButton primary onClick={this.sendMessage}>Send</SendButton>
+					<SendButton
+						className="SendButton"
+						primary
+						onClick={this.sendMessage}
+					>
+							Send
+					</SendButton>
 				</InputBar>
 
 				<FriendSidebar

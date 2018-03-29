@@ -1,0 +1,7 @@
+// creates a fake localStorage before running tests
+const localStorageMock = {
+	getItem: jest.fn(),
+	setItem: jest.fn(),
+	clear: jest.fn()
+};
+global.localStorage = localStorageMock;
