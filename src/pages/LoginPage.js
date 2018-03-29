@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form, Button } from "semantic-ui-react";
+import { Container, Form, Button, Header } from "semantic-ui-react";
 import { GoogleLogin } from "react-google-login";
 import SECRET_KEYS from "../keys";
 import { oauth, login, signup } from "../actions/auth";
@@ -52,7 +52,7 @@ const
 	right: 20px;
 	top: 20px;
 `,
-	FormHeader = styled.h2`
+	FormHeader = styled( Header )`
 	text-align: center;
 	color: #2c2f33;
 `;
@@ -96,49 +96,73 @@ class LoginPage extends React.Component {
 
 	render() {
 		return (
-			<MainWrapper>
-				<FormWrapper>
+			<MainWrapper id="MainWrapper">
+				<FormWrapper id="FormWrapper">
 					{this.state.login ?
-						<SwitchFormButton secondary content="Sign up" onClick={this.switchForm} />
+						<SwitchFormButton
+							className="switchFormButton"
+							secondary
+							content="Sign up"
+							onClick={this.switchForm}
+						/>
 						:
-						<SwitchFormButton secondary content="Log In" onClick={this.switchForm} />
+						<SwitchFormButton
+							className="switchFormButton"
+							secondary
+							content="Log In"
+							onClick={this.switchForm}
+						/>
 					}
 
 					{this.state.login ?
-						<FormHeader>Log In to Concord</FormHeader>
+						<FormHeader content="Log In to Concord" as="h2" className="formHeader" />
 						:
-						<FormHeader>Sign Up to Concord</FormHeader>
+						<FormHeader content="Sign Up to Concord" as="h2" className="formHeader" />
 					}
 
-					<StyledForm>
+					<StyledForm id="AuthForm">
 						<Form.Input
+							className="authInput email"
 							label="Email"
 							name="email"
 							onChange={this.handleChange}
 						/>
 						<Form.Input
+							className="authInput password"
 							label="Password"
 							type="password"
 							name="password"
 							onChange={this.handleChange}
 						/>
 						{this.state.login ?
-							<LoginButton primary content="Log In" onClick={this.handleLogin}/>
+							<LoginButton
+								className="loginSignupButton"
+								primary
+								content="Log In"
+								onClick={this.handleLogin}
+							/>
 							:
-							<LoginButton primary content="Sign Up" onClick={this.handleSignup}/>
+							<LoginButton
+								className="loginSignupButton"
+								primary
+								content="Sign Up"
+								onClick={this.handleSignup}
+							/>
 						}
 
 					</StyledForm>
 
-					<Separator>Or</Separator>
+					<Separator className="separator">Or</Separator>
 
 					<GoogleLoginButton
+						className="oauthButton"
 						clientId={SECRET_KEYS.clientId}
 						buttonText="Continue with Google+"
 						onSuccess={this.responseGoogle}
 						onFailure={this.responseGoogle}
 					/>
 					<FacebookLoginButton
+						className="oauthButton"
 						primary
 						content="Continue with Facebook"
 					/>
