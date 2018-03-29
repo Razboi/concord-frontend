@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../types";
+import { userLoggedIn, userLoggedOut } from "../actions/auth";
 import authenticated from "./user";
 
 describe( "user reducer", () => {
@@ -8,10 +8,10 @@ describe( "user reducer", () => {
 	});
 
 	it( "expect to return false", () => {
-		expect( authenticated( undefined, { type: USER_LOGGED_OUT })).to.equal( false );
+		expect( authenticated( undefined, userLoggedOut())).to.equal( false );
 	});
 
 	it( "expect to return true", () => {
-		expect( authenticated( undefined, { type: USER_LOGGED_IN })).to.equal( true );
+		expect( authenticated( undefined, userLoggedIn())).to.equal( true );
 	});
 });
