@@ -37,22 +37,30 @@ class FriendSidebar extends React.Component {
 
 	render() {
 		return (
-			<Wrapper>
-				<AddFriendForm>
+			<Wrapper id="FriendSidebarWrapper">
+				<AddFriendForm id="AddFriendForm">
 					<Input
+						id="AddFriendInput"
 						name="addFriend"
 						placeholder="Username"
 						onChange={this.handleChange}
 						value={this.state.addFriend}
 					/>
-					<Button primary content="Add Friend" onClick={this.clearAndSend} />
+					<Button
+						className="addFriendButton"
+						primary
+						content="Add Friend"
+						onClick={this.clearAndSend}
+					/>
 				</AddFriendForm>
 				<h3>Friends</h3>
-				{this.props.friends.map(( friend, index ) =>
-					<span key={index} onClick={() => this.changeReceiver( friend )}>
-						{ friend }<br/>
-					</span>
-				)}
+				<div id="FriendsContainer">
+					{this.props.friends.map(( friend, index ) =>
+						<span key={index} onClick={() => this.changeReceiver( friend )}>
+							{ friend }<br/>
+						</span>
+					)}
+				</div>
 			</Wrapper>
 		);
 	}
